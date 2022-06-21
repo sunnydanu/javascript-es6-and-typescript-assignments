@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generate table</title>
+  </head>
+  <body>
+    <form>
+      <input id="rows" type="row" value="4" />
+      <input id="cols" type="col" value="4" />
+      <input id="btn-build" type="button" value="Build" />
+    </form>
+    <div id="result" style="display: none"></div>
+  </body>
+  <script>
+    document.getElementById("btn-build").addEventListener("click", buildTable);
+    function buildTable() {
+      const result = document.getElementById("result");
+      
+      result.setAttribute("style", "display:block");
+      result.innerHTML = "";
+
+      const rows = document.getElementById("rows").value;
+      const cols = document.getElementById("cols").value;
+      let table = '<table border="1">\n';
+      let tbody = "";
+
+      for (let i = 0; i < rows; i++) {
+        tbody += `<tr id="tr-${i}">`;
+        for (let j = 0; j < cols; j++) {
+          tbody += `<td id="td-${j}">`;
+          tbody += "Cell " + i + "," + j;
+          tbody += "</td>";
+        }
+        tbody += "</tr>\n";
+      }
+      let tfooter = "</table>";
+      result.innerHTML = table +   tbody + tfooter;
+    }
+  </script>
+</html>

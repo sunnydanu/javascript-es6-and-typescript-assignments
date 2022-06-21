@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convert Doller to other currencies</title>
+</head>
+<body>
+  <body>
+    <form>
+      <input id="amount" type="number" value="1" placeholder="Enter a amount to be convert." />
+      <input id="btn-convert" type="button" value="Convert" />
+    </form>
+    <div id="result" style="display:none;">
+    
+    </p>
+    <script>
+      
+      const currencies = {
+        INR: "Indian Rupee",
+        JPN: "Japanese Yen",
+        EUR: "Euro",
+        GBP: "British Pound",
+        
+      };
+       
+      document.getElementById("btn-convert").addEventListener("click", fetchCurrencies);
+       function fetchCurrencies() { 
+        fetch("https://v6.exchangerate-api.com/v6/d14eeee6a4f935aab34c335e/latest/usd")
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              result.setAttribute("style", "display:none");
+              throw new Error("NETWORK RESPONSE ERROR");
+            }
+          })
+          .then((data) => {
+            console.log(data);
+            const result =  document.getElementById("result");
+            const amount =  document.getElementById("amount").value;
+            result.setAttribute("style", "display:block");
+            result.innerHTML = "";
+            let ul =  `${amount} Doller is: <br>  <ul style="list-style-type: lower-alpha;">`;
+            Object.keys(currencies).map(code=>{
+              
+              const calculated = parseInt(amount) * data.conversion_rates[code];
+              ul+=`<li> ${calculated} ${code} (${currencies[code]})</li>`;
+            })
+            ul+="</ul>";
+            result.innerHTML=ul;
+  
+          })
+          .catch((error) => console.error("FETCH ERROR:", error));
+      }
+  
+    </script>
+  </body>
+</body>
+</html>
+
+ 
